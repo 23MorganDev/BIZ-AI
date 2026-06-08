@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Drawer,
   Box,
@@ -83,6 +84,7 @@ class Sidebar extends Component {
 
     return navItems.map((item) => {
       const isActive = activePath === item.path;
+
       return (
         <ListItem key={item.path} disablePadding sx={{ mb: 0.5 }}>
           <Tooltip
@@ -93,7 +95,9 @@ class Sidebar extends Component {
             <ListItemButton
               aria-label={item.label}
               onClick={() => {
-                onNavigate(item.path);
+                if (typeof onNavigate === 'function') {
+                  onNavigate(item.path);
+                }
                 this.setState({ mobileOpen: false });
               }}
               sx={{
@@ -601,36 +605,36 @@ class Sidebar extends Component {
           }}
           elevation={3}
         >
-<BottomNavigation
-  value={this.props.activePath}
-  onChange={(e, newPath) => this.props.onNavigate(newPath)}
-  showLabels={false}
-  sx={{
-    backgroundColor: colors.black,
-    height: 52,
-    "& .MuiBottomNavigationAction-root": {
-      color: colors.grey400,
-      minWidth: 0,
-      padding: "6px 0",
-      "&.Mui-selected": {
-        color: colors.red,
-      },
-    },
-  }}
->
-{navItems.slice(0, 5).map((item) => (
-  <BottomNavigationAction
-    key={item.path}
-    value={item.path}
-    icon={item.icon}
-    sx={{
-      minWidth: 0,
-      "& .MuiBottomNavigationAction-label": {
-        display: "none",
-      },
-    }}
-  />
-))}
+          <BottomNavigation
+            value={this.props.activePath}
+            onChange={(e, newPath) => this.props.onNavigate(newPath)}
+            showLabels={false}
+            sx={{
+              backgroundColor: colors.black,
+              height: 52,
+              "& .MuiBottomNavigationAction-root": {
+                color: colors.grey400,
+                minWidth: 0,
+                padding: "6px 0",
+                "&.Mui-selected": {
+                  color: colors.red,
+                },
+              },
+            }}
+          >
+            {navItems.slice(0, 5).map((item) => (
+              <BottomNavigationAction
+                key={item.path}
+                value={item.path}
+                icon={item.icon}
+                sx={{
+                  minWidth: 0,
+                  "& .MuiBottomNavigationAction-label": {
+                    display: "none",
+                  },
+                }}
+              />
+            ))}
           </BottomNavigation>
         </Paper>
       </>

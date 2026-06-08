@@ -10,17 +10,12 @@ const COLLAPSED_WIDTH = 72;
 class Layout extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      activePath: "/",
       sidebarCollapsed: false,
     };
   }
-  
-handleRefresh = () => {
-  if (this.props.onRefresh) {
-    this.props.onRefresh();
-  }
-};
+
 
   handleRefresh = () => {
     if (this.props.onRefresh) {
@@ -40,8 +35,8 @@ handleRefresh = () => {
   };
 
   render() {
-    const { children } = this.props;
-    const { activePath, sidebarCollapsed } = this.state;
+  const { children, activePath, onNavigate } = this.props;
+    const { sidebarCollapsed } = this.state;
     const drawerWidth = sidebarCollapsed
       ? COLLAPSED_WIDTH
       : DRAWER_WIDTH;
@@ -76,7 +71,7 @@ handleRefresh = () => {
         >
           <Sidebar
             activePath={activePath}
-            onNavigate={this.handleNavigate}
+            onNavigate={onNavigate}
             onCollapseChange={(collapsed) =>
               this.setState({ sidebarCollapsed: collapsed })
             }
